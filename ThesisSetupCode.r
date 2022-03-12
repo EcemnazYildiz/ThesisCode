@@ -342,10 +342,11 @@ refresh_sample_pool <- function(selected.seed, columns_left = feature_names) {
     return(unlabeled_pool)
 }
 
-upload_training_set <- function(model.type,seed.list,data.size){
+upload_training_set <- function(model.type,seed.list,data.size,data.date){
     training_set_all = data.table()
     for( i in seed.list){
-        training_set.name= paste0(data.path,"training_set","_",model.type,"_",data.size,"_seed",i,".csv")
+        training_set.name= paste0(data.path,"training_set_",model.type,"_",data.size,"_seed",i,"_",data.date,".csv")
+
         training_set <- fread(training_set.name) 
     
         training_set_all = rbind(training_set_all,data.table(training_set, "seed" = i))
