@@ -40,7 +40,8 @@ log_entry <- function(){
              ,"eliminaton.type =",elimination.type,"\n"
              ,"elimination_start_iter =",elimination_start_iter,"\n"    
              ,"selection_metric =",selection_metric,"\n" 
-             ,"Date =", Sys.Date()
+             ,"Date =", Sys.Date(),"\n"
+             ,"feature_importance_threshold =",feature_importance_threshold
              )
       ,ReadMe, append=TRUE, sep = "\n" )   
 }
@@ -63,7 +64,8 @@ log_entry.sampling <- function(){
              ,"error_type =",error_type,"\n" 
              ,"sample.type =",sample.type,"\n"
              ,"selection_metric =",selection_metric,"\n" 
-             ,"Date =", Sys.Date()
+             ,"Date =", Sys.Date(),"\n"
+             ,"feature_importance_threshold =",feature_importance_threshold
              )
       ,ReadMe, append=TRUE, sep = "\n" )   
 }
@@ -359,19 +361,19 @@ write_importance.rf = function(seed,rep,iter,model,sample.type){
     importance_table = data.table()
     importance_table = rbind(importance_table, data.table(seed = seed, rep = rep, iter_no = iter
                                                       , scaled = "yes", type = "1",
-                                                      t(importance(model,type=1,scaled = TRUE)))
+                                                      t(importance(model,type=1,scale = TRUE)))
                             , use.names = FALSE)
     importance_table = rbind(importance_table, data.table(seed = seed, rep = rep, iter_no = iter
                                                   , scaled = "yes", type = "2",
-                                                  t(importance(model,type=2,scaled = TRUE)))
+                                                  t(importance(model,type=2,scale = TRUE)))
                             , use.names = FALSE)
     importance_table = rbind(importance_table, data.table(seed = seed, rep = rep, iter_no = iter
                                                   , scaled = "no", type = "1",
-                                                  t(importance(model,type=1,scaled = FALSE)))
+                                                  t(importance(model,type=1,scale = FALSE)))
                             , use.names = FALSE)
     importance_table = rbind(importance_table, data.table(seed = seed, rep = rep, iter_no = iter
                                                   , scaled = "no", type = "2",
-                                                  t(importance(model,type=2,scaled = FALSE)))
+                                                  t(importance(model,type=2,scale = FALSE)))
                             , use.names = FALSE)
     
     importance_table = melt(importance_table, id.vars = c("seed","rep","iter_no","scaled","type")
